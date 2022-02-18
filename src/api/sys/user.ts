@@ -1,20 +1,18 @@
-import { defHttp } from '/@/utils/http/axios';
-import { LoginParams, LoginResultModel, GetUserInfoModel } from './model/userModel';
-
+import { CaptchaResultModel } from './model/captchaModel';
+import { GetUserInfoResultModel, LoginParams, LoginResultModel } from './model/userModel';
 import { ErrorMessageMode } from '/#/axios';
+import { authHttp, defHttp } from '/@/utils/http/axios';
 
 enum Api {
-  Login = '/login',
+  Login = '/signin',
+  Captcha = '/get-captcha',
   Logout = '/logout',
-  GetUserInfo = '/getUserInfo',
+  GetUserInfo = '/validate-jose',
   GetPermCode = '/getPermCode',
 }
 
-/**
- * @description: user login api
- */
 export function loginApi(params: LoginParams, mode: ErrorMessageMode = 'modal') {
-  return defHttp.post<LoginResultModel>(
+  return authHttp.post<LoginResultModel>(
     {
       url: Api.Login,
       params,
@@ -25,11 +23,22 @@ export function loginApi(params: LoginParams, mode: ErrorMessageMode = 'modal') 
   );
 }
 
-/**
- * @description: getUserInfo
- */
+export function captchaApi(mode: ErrorMessageMode = 'modal') {
+  return authHttp.get<CaptchaResultModel>(
+    {
+      url: Api.Captcha,
+    },
+    {
+      errorMessageMode: mode,
+    },
+  );
+}
+
 export function getUserInfo() {
-  return defHttp.get<GetUserInfoModel>({ url: Api.GetUserInfo }, { errorMessageMode: 'none' });
+  return authHttp.get<GetUserInfoResultModel>(
+    { url: Api.GetUserInfo },
+    { errorMessageMode: 'none' },
+  );
 }
 
 export function getPermCode() {

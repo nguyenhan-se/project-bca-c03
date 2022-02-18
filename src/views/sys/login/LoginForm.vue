@@ -25,6 +25,21 @@
       />
     </FormItem>
 
+    <FormItem name="captchaKey" class="enter-x">
+      <CountdownInput
+        size="large"
+        class="fix-auto-fill"
+        v-model:value="formData.captchaKey"
+        :placeholder="t('sys.login.captcha')"
+        :sendCodeApi="handleGetCaptcha"
+      />
+    </FormItem>
+
+    <ARow justify="end">
+      <Image v-if="captchaImage" :height="50" :visible="false" :src="imageCaptchaBase64" />
+      <Alert v-else message="SERVER ERROR" type="error" showIcon />
+    </ARow>
+
     <ARow class="enter-x">
       <ACol :span="12">
         <FormItem>
@@ -82,9 +97,10 @@
   </Form>
 </template>
 <script lang="ts" setup>
-  import { reactive, ref, unref, computed } from 'vue';
+  import { reactive, ref, unref, computed, onMounted } from 'vue';
 
-  import { Checkbox, Form, Input, Row, Col, Button, Divider } from 'ant-design-vue';
+  import { Checkbox, Form, Input, Row, Col, Button, Divider, Image, Alert } from 'ant-design-vue';
+  import { CountdownInput } from '/@/components/CountDown';
   import {
     GithubFilled,
     WechatFilled,
@@ -100,6 +116,7 @@
   import { useUserStore } from '/@/store/modules/user';
   import { LoginStateEnum, useLoginState, useFormRules, useFormValid } from './useLogin';
   import { useDesign } from '/@/hooks/web/useDesign';
+  import { captchaApi } from '/@/api/sys/user';
   //import { onKeyStroke } from '@vueuse/core';
 
   const ACol = Col;
@@ -117,10 +134,13 @@
   const formRef = ref();
   const loading = ref(false);
   const rememberMe = ref(false);
+  const captchaImage = ref('');
 
   const formData = reactive({
-    account: 'vben',
-    password: '123456',
+    account: '191996',
+    password: 'Bca@123456',
+    captchaKey: '19001000',
+    captchaSecret: '',
   });
 
   const { validForm } = useFormValid(formRef);
@@ -128,6 +148,23 @@
   //onKeyStroke('Enter', handleLogin);
 
   const getShow = computed(() => unref(getLoginState) === LoginStateEnum.LOGIN);
+
+  const imageCaptchaBase64 = computed(() => `data:image/png;base64,${unref(captchaImage)}`);
+
+  onMounted(async () => {
+    await handleGetCaptcha();
+  });
+
+  const handleGetCaptcha = async (): Promise<boolean> => {
+    try {
+      const captcha = await captchaApi();
+      captchaImage.value = captcha.captchaImage;
+      formData.captchaSecret = captcha.captchaSecret;
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
 
   async function handleLogin() {
     const data = await validForm();
@@ -137,7 +174,9 @@
       const userInfo = await userStore.login({
         password: data.password,
         username: data.account,
-        mode: 'none', //不要默认的错误提示
+        captchaKey: data.captchaKey,
+        captchaSecret: formData.captchaSecret,
+        mode: 'none',
       });
       if (userInfo) {
         notification.success({

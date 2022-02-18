@@ -4,6 +4,8 @@
 export interface LoginParams {
   username: string;
   password: string;
+  captchaKey?: string;
+  captchaSecret?: string;
 }
 
 export interface RoleInfo {
@@ -15,9 +17,8 @@ export interface RoleInfo {
  * @description: Login interface return value
  */
 export interface LoginResultModel {
-  userId: string | number;
-  token: string;
-  role: RoleInfo;
+  accessToken: string;
+  tokenType: string;
 }
 
 /**
@@ -35,4 +36,12 @@ export interface GetUserInfoModel {
   avatar: string;
   // 介绍
   desc?: string;
+}
+
+export interface GetUserInfoResultModel {
+  ufn: string;
+  uid: string;
+  orgName: string;
+  posName: string;
+  org: string;
 }

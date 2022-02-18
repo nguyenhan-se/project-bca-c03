@@ -41,8 +41,10 @@ export function useFormValid<T extends Object = any>(formRef: Ref<any>) {
 export function useFormRules(formData?: Recordable) {
   const { t } = useI18n();
 
-  const getAccountFormRule = computed(() => createRule(t('sys.login.accountPlaceholder')));
+  const getUsernameFormRule = computed(() => createRule(t('sys.login.accountPlaceholder')));
   const getPasswordFormRule = computed(() => createRule(t('sys.login.passwordPlaceholder')));
+  const getCaptchaFormRule = computed(() => createRule(t('sys.login.captchaPlaceholder')));
+
   const getSmsFormRule = computed(() => createRule(t('sys.login.smsPlaceholder')));
   const getMobileFormRule = computed(() => createRule(t('sys.login.mobilePlaceholder')));
 
@@ -63,8 +65,10 @@ export function useFormRules(formData?: Recordable) {
   };
 
   const getFormRules = computed((): { [k: string]: ValidationRule | ValidationRule[] } => {
-    const accountFormRule = unref(getAccountFormRule);
+    const accountFormRule = unref(getUsernameFormRule);
     const passwordFormRule = unref(getPasswordFormRule);
+    const captchaFormRule = unref(getCaptchaFormRule);
+
     const smsFormRule = unref(getSmsFormRule);
     const mobileFormRule = unref(getMobileFormRule);
 
@@ -101,6 +105,7 @@ export function useFormRules(formData?: Recordable) {
         return {
           account: accountFormRule,
           password: passwordFormRule,
+          captchaKey: captchaFormRule,
         };
     }
   });

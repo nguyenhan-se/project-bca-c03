@@ -25,6 +25,7 @@ export const useGlobSetting = (): Readonly<GlobConfig> => {
     shortName: VITE_GLOB_APP_SHORT_NAME,
     urlPrefix: VITE_GLOB_API_URL_PREFIX,
     uploadUrl: VITE_GLOB_UPLOAD_URL,
+    authApiUrl: `${VITE_GLOB_API_URL}/cate/api/auth/cas`,
   };
   return glob as Readonly<GlobConfig>;
 };

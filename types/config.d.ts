@@ -10,7 +10,7 @@ import {
 
 import { CacheTypeEnum } from '/@/enums/cacheEnum';
 
-export type LocaleType = 'zh_CN' | 'en' | 'ru' | 'ja' | 'ko';
+export type LocaleType = 'en' | 'ru' | 'ja' | 'ko' | 'vi_VN';
 
 export interface MenuSetting {
   bgColor: string;
@@ -146,6 +146,8 @@ export interface GlobConfig {
   urlPrefix?: string;
   // Project abbreviation
   shortName: string;
+  // auth url
+  authApiUrl: string;
 }
 export interface GlobEnvConfig {
   // Site title
