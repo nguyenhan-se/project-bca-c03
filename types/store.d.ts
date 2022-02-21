@@ -46,3 +46,14 @@ export interface BeforeMiniState {
   menuMode?: MenuModeEnum;
   menuType?: MenuTypeEnum;
 }
+
+export type DonViInfo = Record<
+  string,
+  {
+    code: String;
+    codeParent: String;
+    mpk: String;
+    name: String;
+    status: Boolean;
+  }
+>;

@@ -11,18 +11,23 @@ export default {
       // The field name of the current page passed to the background
       pageField: 'page',
       // The number field name of each page displayed in the background
-      sizeField: 'pageSize',
+      sizeField: 'size',
       // Field name of the form data returned by the interface
-      listField: 'items',
+      listField: 'result',
       // Total number of tables returned by the interface field name
-      totalField: 'total',
+      totalField: 'totalElements',
     },
     // Number of pages that can be selected
     pageSizeOptions: ['10', '50', '80', '100'],
     // Default display quantity on one page
     defaultPageSize: 10,
+
     // Default Size
     defaultSize: 'middle',
+    // Custom before fetch function
+    defaultBeforeFetchFn: (params) => {
+      return { ...params, page: params.page - 1 };
+    },
     // Custom general sort function
     defaultSortFn: (sortInfo: SorterResult) => {
       const { field, order } = sortInfo;

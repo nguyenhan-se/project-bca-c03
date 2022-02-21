@@ -11,7 +11,13 @@ import type {
 } from './types/table';
 import type { FormProps } from '/@/components/Form';
 
-import { DEFAULT_FILTER_FN, DEFAULT_SORT_FN, FETCH_SETTING, DEFAULT_SIZE } from './const';
+import {
+  DEFAULT_FILTER_FN,
+  DEFAULT_SORT_FN,
+  DEFAULT_BEFORE_FETCH,
+  FETCH_SETTING,
+  DEFAULT_SIZE,
+} from './const';
 import { propTypes } from '/@/utils/propTypes';
 
 export const basicProps = {
@@ -47,7 +53,7 @@ export const basicProps = {
   },
   beforeFetch: {
     type: Function as PropType<Fn>,
-    default: null,
+    default: DEFAULT_BEFORE_FETCH,
   },
   afterFetch: {
     type: Function as PropType<Fn>,

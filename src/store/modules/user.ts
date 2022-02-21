@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { h } from 'vue';
 import { RouteRecordRaw } from 'vue-router';
+
 import type { ErrorMessageMode } from '/#/axios';
 import type { UserInfo } from '/#/store';
 import { GetUserInfoModel, LoginParams } from '/@/api/sys/model/userModel';
@@ -15,6 +16,8 @@ import { PAGE_NOT_FOUND_ROUTE } from '/@/router/routes/basic';
 import { store } from '/@/store';
 import { usePermissionStore } from '/@/store/modules/permission';
 import { getAuthCache, setAuthCache } from '/@/utils/auth';
+
+import { useDonViStore } from './app-common/don-vi';
 
 interface UserState {
   userInfo: Nullable<UserInfo>;
@@ -103,6 +106,8 @@ export const useUserStore = defineStore({
       if (!this.getToken) return null;
       // get user info
       const userInfo = await this.getUserInfoAction();
+      const donViStore = useDonViStore();
+      await donViStore.getFlatListDonVi();
       const sessionTimeout = this.sessionTimeout;
       if (sessionTimeout) {
         this.setSessionTimeout(false);

@@ -118,13 +118,13 @@ export interface TableActionType {
 }
 
 export interface FetchSetting {
-  // 请求接口当前页数
+  // Request the current page number of the interface
   pageField: string;
-  // 每页显示多少条
+  // How many lines to display per page
   sizeField: string;
-  // 请求结果列表字段  支持 a.b.c
+  // Request result list fields support a.b.c
   listField: string;
-  // 请求结果总数字段  支持 a.b.c
+  // Request Results Total Field Support a.b.c
   totalField: string;
 }
 

@@ -9,6 +9,7 @@ const {
   defaultSize,
   defaultSortFn,
   defaultFilterFn,
+  defaultBeforeFetchFn,
 } = table;
 
 export const ROW_KEY = 'key';
@@ -24,6 +25,8 @@ export const FETCH_SETTING = fetchSetting;
 
 // Default Size
 export const DEFAULT_SIZE = defaultSize;
+
+export const DEFAULT_BEFORE_FETCH = defaultBeforeFetchFn;
 
 // Configure general sort function
 export const DEFAULT_SORT_FN = defaultSortFn;
